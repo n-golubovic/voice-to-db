@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import service.TranscriberDemo;
 
 @Slf4j
-@RestController
+// @RestController
 public class VoiceToTextController {
 
    private static final String DICTIONARY_PATH = "file:C:\\Users\\Chardash\\Desktop\\cmudict-en-us.dict";

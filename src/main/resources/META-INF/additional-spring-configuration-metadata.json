@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "voice-to-db.upload-root-directory",
+      "type": "java.lang.String",
+      "description": "File upload location."
+    }
+  ]
+}
