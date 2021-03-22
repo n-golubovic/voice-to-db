@@ -8,3 +8,8 @@ spring:
 
 voice-to-db:
   upload-root-directory: upload/
+  sphinx4:
+    dictionary-path: 'file:C:\Users\Chardash\Desktop\cmudict-en-us.dict'
+    language-model-path: 'file:C:\Users\Chardash\Desktop\en-70k-0.2-pruned.lm'
+    acoustic-model-path: 'file:C:\Users\Chardash\Desktop\cmusphinx-en-us-ptm-8khz-5.2'
+

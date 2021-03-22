@@ -1,16 +1,18 @@
 package net.etfbl.voicetodb.components;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import static java.util.Objects.requireNonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -29,7 +31,7 @@ public class MultipartFileStorage {
 
          for (MultipartFile file : files) {
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(  directoryPath + "/" + file.getOriginalFilename());
+            Path path = Paths.get(directoryPath + "/" + file.getOriginalFilename());
             Files.write(path, bytes);
          }
       } catch (IOException e) {
@@ -37,4 +39,14 @@ public class MultipartFileStorage {
          throw e;
       }
    }
+
+   public List<File> load(String directoryName) {
+      File directory = new File(uploadPath + directoryName);
+      if (directory.exists() && directory.isDirectory()) {
+         return Arrays.asList(requireNonNull(directory.listFiles()));
+      }
+
+      return null;
+   }
+
 }
