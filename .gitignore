@@ -33,5 +33,5 @@ build/
 .vscode/
 
 ### Project Specific ###
-/upload/*
-/results/*
+/upload/
+/results/
