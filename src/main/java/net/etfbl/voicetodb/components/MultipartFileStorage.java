@@ -1,5 +1,12 @@
 package net.etfbl.voicetodb.components;
 
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.util.FileSystemUtils;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,12 +14,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+
 import static java.util.Objects.requireNonNull;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import org.springframework.util.FileSystemUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Component
@@ -47,6 +50,11 @@ public class MultipartFileStorage {
       }
 
       return null;
+   }
+
+   @SneakyThrows
+   public void delete(String directoryName) {
+      Files.deleteIfExists(Path.of(uploadPath, directoryName));
    }
 
 }

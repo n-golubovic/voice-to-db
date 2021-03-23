@@ -8,6 +8,7 @@ spring:
 
 voice-to-db:
   upload-root-directory: upload/
+  result-root-directory: results/
   sphinx4:
     dictionary-path: 'file:C:\Users\Chardash\Desktop\cmudict-en-us.dict'
     language-model-path: 'file:C:\Users\Chardash\Desktop\en-70k-0.2-pruned.lm'
