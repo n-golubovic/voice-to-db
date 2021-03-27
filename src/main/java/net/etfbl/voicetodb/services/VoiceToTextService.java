@@ -1,6 +1,5 @@
 package net.etfbl.voicetodb.services;
 
-import lombok.SneakyThrows;
 import net.etfbl.voicetodb.components.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -8,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,20 +18,20 @@ public class VoiceToTextService {
    private final JobQueue queue;
    private final MultipartFileStorage storage;
    private final ResultStorage resultStorage;
-   private final VoiceToTextProcessor processor;
    private final TextProcessor textProcessor;
+   private final PythonRunner pythonRunner;
 
    @Autowired
    public VoiceToTextService(JobQueue queue,
                              MultipartFileStorage storage,
                              ResultStorage resultStorage,
-                             VoiceToTextProcessor voiceToTextProcessor,
-                             TextProcessor textProcessor) {
+                             TextProcessor textProcessor,
+                             PythonRunner pythonRunner) {
       this.queue = queue;
       this.storage = storage;
       this.resultStorage = resultStorage;
-      this.processor = voiceToTextProcessor;
       this.textProcessor = textProcessor;
+      this.pythonRunner = pythonRunner;
    }
 
    @Scheduled(fixedRate = 1000)
@@ -40,18 +39,14 @@ public class VoiceToTextService {
       if (queue.hasJobs()) {
          String jobId = queue.getJob().getJobId();
          List<String> texts = storage.load(jobId).stream()
-               .map(VoiceToTextService::load)
-               .map(processor::process)
+               .map(File::getAbsolutePath)
+               .map(pythonRunner::runAndListenScript)
+               .flatMap(Collection::stream)
                .collect(Collectors.toList());
 
          resultStorage.save(jobId, textProcessor.process(texts));
          storage.delete(jobId);
       }
-   }
-
-   @SneakyThrows
-   private static FileInputStream load(File file) {
-      return new FileInputStream(file);
    }
 
 }
