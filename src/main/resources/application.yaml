@@ -9,10 +9,6 @@ spring:
 voice-to-db:
   upload-root-directory: upload/
   result-root-directory: results/
-  sphinx4:
-    dictionary-path: 'file:C:\Users\Necronomicon\Desktop\cmudict-0.7b.txt'
-    language-model-path: 'file:C:\Users\Necronomicon\Desktop\en-70k-0.2.lm\en-70k-0.2.lm'
-    acoustic-model-path: 'file:C:\Users\Necronomicon\Desktop\cmusphinx-en-us-8khz-5.2'
   vosk:
     script-path: 'F:\Projects\voice-to-db\vosk-api\python\example'
 
