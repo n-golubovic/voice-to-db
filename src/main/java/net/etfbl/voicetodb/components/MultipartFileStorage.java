@@ -54,7 +54,7 @@ public class MultipartFileStorage {
 
    @SneakyThrows
    public void delete(String directoryName) {
-      Files.deleteIfExists(Path.of(uploadPath, directoryName));
+      FileSystemUtils.deleteRecursively(Path.of(uploadPath, directoryName));
    }
 
 }

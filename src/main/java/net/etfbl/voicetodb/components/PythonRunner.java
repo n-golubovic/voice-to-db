@@ -32,6 +32,8 @@ public class PythonRunner {
       List<String> result = objectMapper.readValue(process.getInputStream(), RecognitionResult.class);
       result.removeIf(String::isBlank);
 
+      process.waitFor();
+
       return result;
    }
 
