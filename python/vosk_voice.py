@@ -6,7 +6,7 @@ import os
 import wave
 import json
 
-SetLogLevel(0)
+SetLogLevel(-1)
 
 if not os.path.exists("model"):
     print ("Please download the model from https://alphacephei.com/vosk/models and unpack as 'model' in the current folder.")
@@ -20,11 +20,17 @@ if wf.getnchannels() != 1 or wf.getsampwidth() != 2 or wf.getcomptype() != "NONE
 model = Model("model")
 rec = KaldiRecognizer(model, wf.getframerate())
 
+res = []
+
 while True:
     data = wf.readframes(4000)
     if rec.AcceptWaveform(data):
         result = json.loads(rec.FinalResult())
-        print(result["text"])
+        res.append(result["text"])
     if len(data) == 0:
         break
 
+result = json.loads(rec.FinalResult())
+res.append(result["text"])
+
+print(json.dumps(res))
