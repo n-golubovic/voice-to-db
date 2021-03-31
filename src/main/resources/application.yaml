@@ -7,10 +7,11 @@ spring:
       max-request-size: 100MB
 
 voice-to-db:
+  python-executable: python.exe
   upload-root-directory: upload
   result-root-directory: results
   vosk:
-    script-path: 'python/vosk_voice.py'
+    script-path: 'python/'
 ---
 spring:
   config:
@@ -18,6 +19,7 @@ spring:
       on-profile: docker
 
 voice-to-db:
+  python-executable: python3.8
   upload-root-directory: /upload
   result-root-directory: /results
   vosk:

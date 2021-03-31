@@ -12,11 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class PythonRunner {
 
+   private final String pythonExecutable;
    private final String scriptPath;
    private final ObjectMapper objectMapper;
 
    @Autowired
-   public PythonRunner(@Value("${voice-to-db.vosk.script-path}") String scriptPath, ObjectMapper objectMapper) {
+   public PythonRunner(@Value("${voice-to-db.python-executable}") String pythonExecutable,
+                       @Value("${voice-to-db.vosk.script-path}") String scriptPath,
+                       ObjectMapper objectMapper) {
+      this.pythonExecutable = pythonExecutable;
       this.scriptPath = scriptPath;
       this.objectMapper = objectMapper;
    }
@@ -24,7 +28,7 @@ public class PythonRunner {
    @SneakyThrows
    public List<String> runAndListenScript(String fileName) {
       ProcessBuilder builder = new ProcessBuilder();
-      builder.command("python.exe", "vosk_voice.py", fileName);
+      builder.command(pythonExecutable, "vosk_voice.py", fileName);
       builder.directory(new File(scriptPath));
       Process process = builder.start();
 

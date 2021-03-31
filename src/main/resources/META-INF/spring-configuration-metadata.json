@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "voice-to-db.upload-root-directory",
+      "type": "java.lang.String",
+      "description": "File upload location."
+    },
+    {
+      "name": "voice-to-db.python-executable",
+      "type": "java.lang.String",
+      "description": "Command for running python on used OS environment."
+    },
+    {
+      "name": "voice-to-db.result-root-directory",
+      "type": "java.lang.String",
+      "description": "Location for storing processed requests."
+    },
+    {
+      "name": "voice-to-db.vosk.script-path",
+      "type": "java.lang.String",
+      "description": "Directory containing vosk script and model."
+    }
+  ]
+}
