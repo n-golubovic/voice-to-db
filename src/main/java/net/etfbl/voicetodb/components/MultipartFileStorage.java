@@ -42,7 +42,7 @@ public class MultipartFileStorage {
    }
 
    public List<File> load(String directoryName) {
-      File directory = new File(uploadPath + directoryName);
+      File directory = Path.of(uploadPath, directoryName).toFile();
       if (directory.exists() && directory.isDirectory()) {
          return Arrays.asList(requireNonNull(directory.listFiles()));
       }
