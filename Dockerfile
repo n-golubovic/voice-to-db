@@ -10,9 +10,13 @@ RUN cd /Python-3.8.3 && ./configure --enable-optimizations
 RUN cd /Python-3.8.3 && make altinstall
 RUN pip3.8 install vosk
 
+RUN mkdir /app
+RUN wget https://alphacephei.com/kaldi/models/vosk-model-small-en-us-0.15.zip
+RUN unzip vosk-model-small-en-us-0.15.zip
+RUN mv vosk-model-small-en-us-0.15 /app/model
+
 COPY target/voice-to-db-1.0.0.jar /app/app.jar
 COPY python/vosk_voice.py /app/vosk_voice.py
-COPY python/model /app/model
 
 RUN mkdir /results
 RUN mkdir /upload
