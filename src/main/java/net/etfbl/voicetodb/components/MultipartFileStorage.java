@@ -1,19 +1,23 @@
 package net.etfbl.voicetodb.components;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import static java.util.Objects.requireNonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @Component
@@ -48,6 +52,15 @@ public class MultipartFileStorage {
       }
 
       return null;
+   }
+
+   @SneakyThrows
+   public List<String> listAll() {
+      File[] directories = Path.of(uploadPath).toFile().listFiles();
+
+      return directories != null
+            ? Arrays.stream(directories).map(File::getName).collect(Collectors.toList())
+            : Collections.emptyList();
    }
 
    @SneakyThrows
