@@ -14,21 +14,21 @@ import java.io.IOException;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 @RestController
-public class ReportController {
+public class ResultController {
 
    private final ResultStorage storage;
 
    @Autowired
-   public ReportController(ResultStorage storage) {
+   public ResultController(ResultStorage storage) {
       this.storage = storage;
    }
 
    @CrossOrigin("*")
-   @GetMapping(value = "/report", produces = MediaType.TEXT_PLAIN_VALUE)
-   public String getReport(HttpServletResponse response,
-                           @RequestParam String jobId) {
+   @GetMapping(value = "/result", produces = MediaType.TEXT_PLAIN_VALUE)
+   public String getResult(HttpServletResponse response,
+                           @RequestParam String requestId) {
       try {
-         return storage.get(jobId);
+         return storage.get(requestId);
       } catch (IOException e) {
          response.setStatus(SC_NOT_FOUND);
          return null;
