@@ -23,7 +23,7 @@ rec = KaldiRecognizer(model, wf.getframerate())
 res = []
 
 while True:
-    data = wf.readframes(4000)
+    data = wf.readframes(2000)
     if rec.AcceptWaveform(data):
         result = json.loads(rec.FinalResult())
         res.append(result["text"])
