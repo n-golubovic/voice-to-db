@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import net.etfbl.voicetodb.components.AudioStorage;
 import net.etfbl.voicetodb.components.JobQueue;
 import net.etfbl.voicetodb.components.PythonRunner;
@@ -14,6 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @EnableScheduling
 public class VoiceToTextService {
@@ -49,6 +51,7 @@ public class VoiceToTextService {
 
          resultStorage.save(jobId, textProcessor.process(texts));
          storage.delete(jobId);
+         log.info("processed job with id " + jobId);
       }
    }
 
