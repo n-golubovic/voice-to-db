@@ -1,29 +1,32 @@
 package net.etfbl.voicetodb.services;
 
-import net.etfbl.voicetodb.components.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import net.etfbl.voicetodb.components.AudioStorage;
+import net.etfbl.voicetodb.components.JobQueue;
+import net.etfbl.voicetodb.components.PythonRunner;
+import net.etfbl.voicetodb.components.ResultStorage;
+import net.etfbl.voicetodb.components.TextProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 @Service
 @EnableScheduling
 public class VoiceToTextService {
 
    private final JobQueue queue;
-   private final MultipartFileStorage storage;
+   private final AudioStorage storage;
    private final ResultStorage resultStorage;
    private final TextProcessor textProcessor;
    private final PythonRunner pythonRunner;
 
    @Autowired
    public VoiceToTextService(JobQueue queue,
-                             MultipartFileStorage storage,
+                             AudioStorage storage,
                              ResultStorage resultStorage,
                              TextProcessor textProcessor,
                              PythonRunner pythonRunner) {

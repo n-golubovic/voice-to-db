@@ -2,9 +2,9 @@ package net.etfbl.voicetodb.services;
 
 import java.util.List;
 import lombok.SneakyThrows;
+import net.etfbl.voicetodb.components.AudioStorage;
 import net.etfbl.voicetodb.components.JobIdGenerator;
 import net.etfbl.voicetodb.components.JobQueue;
-import net.etfbl.voicetodb.components.MultipartFileStorage;
 import net.etfbl.voicetodb.models.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileUploadService {
 
-   private final MultipartFileStorage fileStorage;
+   private final AudioStorage fileStorage;
    private final JobQueue jobQueue;
    private final JobIdGenerator jobIdGenerator;
 
    @Autowired
-   public FileUploadService(MultipartFileStorage fileStorage,
+   public FileUploadService(AudioStorage fileStorage,
                             JobQueue jobQueue,
                             JobIdGenerator jobIdGenerator) {
       this.fileStorage = fileStorage;
