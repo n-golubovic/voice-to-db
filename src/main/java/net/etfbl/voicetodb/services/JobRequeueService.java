@@ -1,13 +1,14 @@
 package net.etfbl.voicetodb.services;
 
-import java.util.List;
-import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import net.etfbl.voicetodb.components.AudioStorage;
 import net.etfbl.voicetodb.components.JobQueue;
 import net.etfbl.voicetodb.models.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -28,7 +29,7 @@ public class JobRequeueService {
 
       jobIds.forEach(jobId -> {
          log.info("processing leftover job with id {}", jobId);
-         jobQueue.submit(new Job(jobId));
+         jobQueue.add(new Job(jobId));
       });
    }
 }

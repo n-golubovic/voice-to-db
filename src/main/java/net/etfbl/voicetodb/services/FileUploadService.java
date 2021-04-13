@@ -1,7 +1,5 @@
 package net.etfbl.voicetodb.services;
 
-import java.util.List;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.etfbl.voicetodb.components.AudioStorage;
 import net.etfbl.voicetodb.components.JobIdGenerator;
@@ -10,6 +8,10 @@ import net.etfbl.voicetodb.models.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ws.schild.jave.EncoderException;
+
+import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -29,11 +31,10 @@ public class FileUploadService {
    }
 
 
-   @SneakyThrows
-   public String save(List<MultipartFile> files) {
+   public String save(List<MultipartFile> files) throws IOException, EncoderException {
       String id = jobIdGenerator.generate();
       fileStorage.save(id, files);
-      jobQueue.submit(new Job(id));
+      jobQueue.add(new Job(id));
       log.info("submitted job request with id {}", id);
       return id;
    }

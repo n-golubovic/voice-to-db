@@ -1,19 +1,16 @@
 package net.etfbl.voicetodb.services;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import net.etfbl.voicetodb.components.AudioStorage;
-import net.etfbl.voicetodb.components.JobQueue;
-import net.etfbl.voicetodb.components.PythonRunner;
-import net.etfbl.voicetodb.components.ResultStorage;
-import net.etfbl.voicetodb.components.TextProcessor;
+import net.etfbl.voicetodb.components.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -41,8 +38,8 @@ public class VoiceToTextService {
 
    @Scheduled(fixedRate = 1000)
    public void checkForNewJobs() {
-      if (queue.hasJobs()) {
-         String jobId = queue.getJob().getJobId();
+      if (!queue.isEmpty()) {
+         String jobId = queue.poll().getJobId();
          List<String> texts = storage.load(jobId).stream()
                .map(File::getAbsolutePath)
                .map(pythonRunner::runAndListenScript)
