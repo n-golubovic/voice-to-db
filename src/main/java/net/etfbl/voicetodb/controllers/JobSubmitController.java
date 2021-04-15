@@ -1,9 +1,15 @@
 package net.etfbl.voicetodb.controllers;
 
 
+import java.io.IOException;
+import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
 import lombok.extern.slf4j.Slf4j;
-import net.etfbl.voicetodb.models.FileUploadResponse;
-import net.etfbl.voicetodb.services.FileUploadService;
+import net.etfbl.voicetodb.models.JobSubmitResponse;
+import net.etfbl.voicetodb.services.JobSubmitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,37 +18,31 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ws.schild.jave.EncoderException;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-
-import static javax.servlet.http.HttpServletResponse.*;
-
 @Slf4j
 @RestController
-public class FileUploadController {
+public class JobSubmitController {
 
-   private final FileUploadService fileUploadService;
+   private final JobSubmitService jobSubmitService;
 
    @Autowired
-   public FileUploadController(FileUploadService fileUploadService) {
-      this.fileUploadService = fileUploadService;
+   public JobSubmitController(JobSubmitService jobSubmitService) {
+      this.jobSubmitService = jobSubmitService;
    }
 
    @CrossOrigin("*")
    @PostMapping("/upload")
-   public FileUploadResponse uploadFiles(HttpServletResponse response,
-                                         @RequestParam("files") List<MultipartFile> files) {
+   public JobSubmitResponse uploadFiles(HttpServletResponse response,
+                                        @RequestParam("files") List<MultipartFile> files) {
       files.removeIf(MultipartFile::isEmpty);
-      files.removeIf(FileUploadController::notAudioFile);
+      files.removeIf(JobSubmitController::notAudioFile);
 
       if (files.isEmpty()) {
          response.setStatus(SC_BAD_REQUEST);
-         return FileUploadResponse.EMPTY;
+         return JobSubmitResponse.EMPTY;
       }
 
       try {
-         return new FileUploadResponse(fileUploadService.save(files));
+         return new JobSubmitResponse(jobSubmitService.save(files));
       } catch (IOException e) {
          response.setStatus(SC_INTERNAL_SERVER_ERROR);
          log.error("Error occurred while handling a request", e);
@@ -51,7 +51,7 @@ public class FileUploadController {
          log.error("Error occurred while handling a request", e);
       }
 
-      return FileUploadResponse.EMPTY;
+      return JobSubmitResponse.EMPTY;
    }
 
    private static boolean notAudioFile(MultipartFile file) {

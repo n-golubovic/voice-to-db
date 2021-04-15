@@ -1,5 +1,7 @@
 package net.etfbl.voicetodb.services;
 
+import java.io.IOException;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import net.etfbl.voicetodb.components.AudioStorage;
 import net.etfbl.voicetodb.components.JobIdGenerator;
@@ -10,21 +12,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ws.schild.jave.EncoderException;
 
-import java.io.IOException;
-import java.util.List;
-
 @Slf4j
 @Service
-public class FileUploadService {
+public class JobSubmitService {
 
    private final AudioStorage fileStorage;
    private final JobQueue jobQueue;
    private final JobIdGenerator jobIdGenerator;
 
    @Autowired
-   public FileUploadService(AudioStorage fileStorage,
-                            JobQueue jobQueue,
-                            JobIdGenerator jobIdGenerator) {
+   public JobSubmitService(AudioStorage fileStorage,
+                           JobQueue jobQueue,
+                           JobIdGenerator jobIdGenerator) {
       this.fileStorage = fileStorage;
       this.jobQueue = jobQueue;
       this.jobIdGenerator = jobIdGenerator;
