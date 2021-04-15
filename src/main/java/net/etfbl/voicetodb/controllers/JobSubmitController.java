@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ws.schild.jave.EncoderException;
 
+/**
+ * {@code JobSubmitController} is a rest-based controller that allows submitting audio-to-text requests.
+ */
 @Slf4j
 @RestController
 public class JobSubmitController {
@@ -29,6 +32,15 @@ public class JobSubmitController {
       this.jobSubmitService = jobSubmitService;
    }
 
+   /**
+    * Uploads files for processing. Returns {@code BAD REQUEST} if none of uploaded files are audio files, or if actual
+    * audio files cannot be converted to compatible format. Returns {@code INTERNAL SERVER ERROR} if files cannot be
+    * successfully stored.
+    *
+    * @param response http response
+    * @param files    audio files to process
+    * @return response containing id used to retrieve result once processed
+    */
    @CrossOrigin("*")
    @PostMapping("/upload")
    public JobSubmitResponse uploadFiles(HttpServletResponse response,

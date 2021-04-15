@@ -1,17 +1,23 @@
 package net.etfbl.voicetodb.services;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import net.etfbl.voicetodb.components.*;
+import net.etfbl.voicetodb.components.AudioStorage;
+import net.etfbl.voicetodb.components.JobQueue;
+import net.etfbl.voicetodb.components.PythonRunner;
+import net.etfbl.voicetodb.components.ResultStorage;
+import net.etfbl.voicetodb.components.TextProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
+/**
+ * {@code VoiceToTextService} observes {@link JobQueue} and processes any queued requests.
+ */
 @Slf4j
 @Service
 @EnableScheduling
@@ -36,6 +42,12 @@ public class VoiceToTextService {
       this.pythonRunner = pythonRunner;
    }
 
+   /**
+    * Retrieves a single job (if available) and processes it. Result is stored into {@link ResultStorage} and request
+    * data is retrieved from {@link AudioStorage}. This step assumes only valid requests can happen, as audio conversion
+    * and type compatibility check are already performed on request data store. Deletes request data on successful job
+    * completion.
+    */
    @Scheduled(fixedRate = 1000)
    public void checkForNewJobs() {
       if (!queue.isEmpty()) {

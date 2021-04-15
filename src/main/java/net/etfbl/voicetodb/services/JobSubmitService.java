@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ws.schild.jave.EncoderException;
 
+/**
+ * {@code JobSubmitService} allows submitting files for processing. Files are stored and request is put into working
+ * queue.
+ */
 @Slf4j
 @Service
 public class JobSubmitService {
@@ -29,7 +33,15 @@ public class JobSubmitService {
       this.jobIdGenerator = jobIdGenerator;
    }
 
-
+   /**
+    * Attempts to save request for processing. As audio encoding is done in this step, saving can fail on unsupported
+    * files or bad file storage.
+    *
+    * @param files received audio files
+    * @return id assigned to this job
+    * @throws IOException      if files cannot be saved
+    * @throws EncoderException if file format is not supported
+    */
    public String save(List<MultipartFile> files) throws IOException, EncoderException {
       String id = jobIdGenerator.generate();
       fileStorage.save(id, files);
