@@ -1,11 +1,13 @@
 package net.etfbl.voicetodb.components;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Optional;
 
 /**
  * {@code ResultStorage} allows permanent storage of results.
@@ -34,10 +36,13 @@ public class ResultStorage {
     * Reads result identified by given jobId.
     *
     * @param jobId job id
-    * @return result
-    * @throws IOException if there is no data for given jobId
+    * @return Optional<String> result with null value if there is no data for given jobId
     */
-   public String get(String jobId) throws IOException {
-      return Files.readString(Path.of(resultPath, jobId));
+   public Optional<String> get(String jobId) {
+      try {
+         return Optional.of(Files.readString(Path.of(resultPath, jobId)));
+      } catch (IOException e) {
+         return Optional.empty();
+      }
    }
 }

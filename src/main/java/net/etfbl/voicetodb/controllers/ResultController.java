@@ -1,15 +1,18 @@
 package net.etfbl.voicetodb.controllers;
 
-import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import net.etfbl.voicetodb.components.ResultStorage;
+import net.etfbl.voicetodb.models.ResultResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
+
+import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 /**
  * {@code ResultController} allows retrieval of results for processed requests.
@@ -33,15 +36,13 @@ public class ResultController {
     * @return processed text
     */
    @CrossOrigin("*")
-   @GetMapping(value = "/result", produces = MediaType.TEXT_PLAIN_VALUE)
-   public String getResult(HttpServletResponse response,
+   @GetMapping(value = "/result")
+   public ResultResponse getResult(HttpServletResponse response,
                            @RequestParam String requestId) {
-      try {
-         return storage.get(requestId);
-      } catch (IOException e) {
-         response.setStatus(SC_NOT_FOUND);
-         return null;
-      }
+      Optional<String> result = storage.get(requestId);
+
+      response.setStatus(result.isPresent() ? SC_OK : SC_NOT_FOUND);
+      return new ResultResponse(result.orElse(null));
    }
 
 }
