@@ -12,7 +12,6 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 import java.util.stream.Collectors;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,11 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ws.schild.jave.EncoderException;
 
-@Slf4j
+/**
+ * {@code AudioStorage} allows conversion to Vosk-supported audio format and storage of converted audio. All received
+ * data is stored in root directory defined in configuration, and grouped into directories where each directory matches
+ * a batch received through a single processing request.
+ */
 @Component
 public class AudioStorage {
 
@@ -34,6 +37,15 @@ public class AudioStorage {
       this.audioConverter = audioConverter;
    }
 
+   /**
+    * Saves given files into given directory. Assumed that directory denoted by given directoryName parameter doesn't
+    * exists.
+    *
+    * @param directoryName name of parent directory
+    * @param files         files to save
+    * @throws IOException      file exists, or files can't be saved
+    * @throws EncoderException files shouldn't be saved as they aren't Vosk-compatible
+    */
    public void save(String directoryName, List<MultipartFile> files) throws IOException, EncoderException {
       Path directoryPath = Path.of(uploadPath, directoryName);
       try {
@@ -50,6 +62,12 @@ public class AudioStorage {
       }
    }
 
+   /**
+    * Loads files inside the given directoryName. Returns null if directory doesn't exist.
+    *
+    * @param directoryName directory name
+    * @return list of files
+    */
    public List<File> load(String directoryName) {
       File directory = Path.of(uploadPath, directoryName).toFile();
       if (directory.exists() && directory.isDirectory()) {
@@ -59,6 +77,11 @@ public class AudioStorage {
       return null;
    }
 
+   /**
+    * Returns a list of all existing directories.
+    *
+    * @return list of names of existing directories
+    */
    @SneakyThrows
    public List<String> listAll() {
       File[] directories = Path.of(uploadPath).toFile().listFiles();
@@ -68,6 +91,11 @@ public class AudioStorage {
             : Collections.emptyList();
    }
 
+   /**
+    * Deletes the directory denoted by the given directoryName and all files in it.
+    *
+    * @param directoryName directory to delete
+    */
    @SneakyThrows
    public void delete(String directoryName) {
       FileSystemUtils.deleteRecursively(Path.of(uploadPath, directoryName));

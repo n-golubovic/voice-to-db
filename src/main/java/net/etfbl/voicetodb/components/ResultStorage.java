@@ -7,6 +7,9 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * {@code ResultStorage} allows permanent storage of results.
+ */
 @Component
 public class ResultStorage {
 
@@ -16,11 +19,24 @@ public class ResultStorage {
       this.resultPath = resultPath;
    }
 
+   /**
+    * Saves given result and identifies it by given jobId for later retrieval.
+    *
+    * @param jobId  identifier to store by
+    * @param result result to store
+    */
    @SneakyThrows
    public void save(String jobId, String result) {
       Files.write(Path.of(resultPath, jobId), result.getBytes());
    }
 
+   /**
+    * Reads result identified by given jobId.
+    *
+    * @param jobId job id
+    * @return result
+    * @throws IOException if there is no data for given jobId
+    */
    public String get(String jobId) throws IOException {
       return Files.readString(Path.of(resultPath, jobId));
    }

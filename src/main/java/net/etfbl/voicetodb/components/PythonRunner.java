@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * {@code PythonRunner} is a wrapper for process runner that is designed to run and process python scripts. In this
+ * case, it is implemented to run {@code vosk_voice.py} script, and additional generalization isn't needed. Python
+ * executable is defined through the configuration.
+ */
 @Component
 public class PythonRunner {
 
@@ -25,6 +30,12 @@ public class PythonRunner {
       this.objectMapper = objectMapper;
    }
 
+   /**
+    * Runs Python implementation of Vosk and retrieves the result.
+    *
+    * @param fileName audio file to read and process
+    * @return list of sentences decoded from the audio file
+    */
    @SneakyThrows
    public List<String> runAndListenScript(String fileName) {
       ProcessBuilder builder = new ProcessBuilder();
