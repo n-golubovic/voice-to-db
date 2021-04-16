@@ -16,7 +16,7 @@ If you decide to run the application in Docker mode in live environment, conside
 `/results` to volumes. This will retain requests that are received but not processed in case you decide to update the
 service logic.
 
-###How to use
+### How to use
 Two endpoints are available - `/upload` and `/result`. 
 
 To submit a request, call `/upload` endpoint and provide audio
@@ -31,7 +31,7 @@ after a successful job submit. Calling this endpoint will result either in statu
 the request yet (or if the request matching given requestId doesn't exist) or in a returned object containing `text`
 field with the text representation of submitted audio files.
 
-###How it works
+### How it works
 Voice-to-db relies on queuing submitted requests and storing the files locally. FFMPEG converts received files into 
 Vosk-compatible format, which are then stored. Vosk processes the files by the order they were submitted, which are 
 then removed. Results remain as long as someone doesn't delete them. Since Vosk is in its experimental stage, Java 
