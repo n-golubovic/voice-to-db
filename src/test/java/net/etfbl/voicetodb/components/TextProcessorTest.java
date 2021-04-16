@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TextProcessorTest {
 
-   TextProcessor textProcessor = new TextProcessor();
+   private final TextProcessor textProcessor = new TextProcessor();
 
    @Test
    void process_validInput_returnsJoinedString() {
@@ -18,7 +18,7 @@ class TextProcessorTest {
 
       String result = textProcessor.process(input);
 
-      assertEquals("sentence 1. sentence 2", result);
+      assertEquals("sentence 1. sentence 2.", result);
    }
 
    @Test

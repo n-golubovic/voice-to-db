@@ -33,19 +33,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class JobSubmitControllerTest {
 
    @Autowired
-   MockMvc mockMvc;
+   private MockMvc mockMvc;
 
    @MockBean
-   JobSubmitService jobSubmitService;
+   private JobSubmitService jobSubmitService;
 
    private static final ObjectMapper mapper = new ObjectMapper();
 
-   Logger logger;
-   ListAppender<ILoggingEvent> listAppender;
+   private ListAppender<ILoggingEvent> listAppender;
 
    @BeforeEach
    void beforeEach() {
-      logger = (Logger) LoggerFactory.getLogger(JobSubmitController.class);
+      Logger logger = (Logger) LoggerFactory.getLogger(JobSubmitController.class);
       listAppender = new ListAppender<>();
       listAppender.start();
       logger.addAppender(listAppender);
@@ -89,7 +88,7 @@ class JobSubmitControllerTest {
    @SneakyThrows
    @Test
    void uploadFile_notAudioFileRequest_return400AndEmptyResponse() {
-      MockMultipartFile file1 = new MockMultipartFile("files", "file.wav", "text/", new byte[]{});
+      MockMultipartFile file1 = new MockMultipartFile("files", "file.wav", "text/", new byte[]{'a'});
 
       MockHttpServletRequestBuilder request = MockMvcRequestBuilders
             .multipart("/upload")
@@ -142,6 +141,23 @@ class JobSubmitControllerTest {
       assertEquals(JobSubmitResponse.EMPTY, result);
       assertEquals(1, listAppender.list.size());
       assertEquals(Level.ERROR, listAppender.list.get(0).getLevel());
+   }
+
+   @SneakyThrows
+   @Test
+   void uploadFile_noContentType_return400AndEmptyResponse() {
+      MockMultipartFile file1 = new MockMultipartFile("files", "file.wav", null, new byte[]{'a'});
+
+      MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+            .multipart("/upload")
+            .file(file1);
+
+      MvcResult response = mockMvc.perform(request).andExpect(status().is(SC_BAD_REQUEST)).andReturn();
+
+      JobSubmitResponse result = mapper.readValue(response.getResponse().getContentAsString(), JobSubmitResponse.class);
+
+      verify(jobSubmitService, never()).save(any());
+      assertEquals(JobSubmitResponse.EMPTY, result);
    }
 
 

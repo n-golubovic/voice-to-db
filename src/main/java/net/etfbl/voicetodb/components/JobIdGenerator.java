@@ -1,6 +1,9 @@
 package net.etfbl.voicetodb.components;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.Clock;
 
 /**
  * {@code JobGenerator} provides a singular mean of generating pseudo-unique ids for requests.
@@ -8,12 +11,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class JobIdGenerator {
 
+   private Clock clock;
+
+   @Autowired
+   public JobIdGenerator(Clock clock) {
+      this.clock = clock;
+   }
+
    /**
     * Generates a pseudo-random unique id based on current time.
     *
     * @return random string for identification
     */
    public String generate() {
-      return String.valueOf(System.currentTimeMillis());
+      return String.valueOf(clock.millis());
    }
 }
