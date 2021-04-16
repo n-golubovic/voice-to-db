@@ -1,6 +1,6 @@
 # voice-to-db
 Voice-to-db is an application for speech-to-text conversion based on Vosk. It allows non-real-time conversion by request
-submitting and later retrieval.
+submitting and later retrieval. Text processing is geared towards business process descriptive texts.
 ### How to start
 This service can be started locally or on bare metal, but as it relies on both Python and Java, it is preferred to use
 Docker. You can start the Docker instance using following commands:
