@@ -1,3 +1,12 @@
+FROM maven:3.8.1-openjdk-15-slim AS builder
+
+RUN mkdir /build
+WORKDIR /build
+
+COPY . .
+
+RUN mvn -e clean install
+
 FROM adoptopenjdk/openjdk15:jdk-15.0.2_7-centos-slim
 
 RUN yum -y update
@@ -15,7 +24,7 @@ RUN wget https://alphacephei.com/kaldi/models/vosk-model-small-en-us-0.15.zip
 RUN unzip vosk-model-small-en-us-0.15.zip
 RUN mv vosk-model-small-en-us-0.15 /app/model
 
-COPY target/voice-to-db-1.0.0.jar /app/app.jar
+COPY --from=builder /build/target/voice-to-db-1.0.0.jar /app/app.jar
 COPY python/vosk_voice.py /app/vosk_voice.py
 
 RUN mkdir /results

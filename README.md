@@ -6,9 +6,9 @@ This service can be started locally or on bare metal, but as it relies on both P
 Docker. You can start the Docker instance using following commands:
 ```
 docker build -t voice2db .
-docker run voice2db -p8000:8080
+docker run -p8000:8080 voice2db 
 ```
-This will create an instance of service that will listen to requests on port 3000. Change it if you want to. If you 
+This will create an instance of service that will listen to requests on port 8000. Change it if you want to. If you 
 decide to run it locally, make sure you have Python 3.8.x installed. Depending on the platform, you might need to change
 `voice-to-db.python-executable` to match the command which refers to python executable.
 
