@@ -18,6 +18,10 @@
         <java.version>15</java.version>
     </properties>
 
+    <modules>
+        <module>router</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>ws.schild</groupId>
