@@ -3,19 +3,25 @@ package net.etfbl.voicetodb.services;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
-import net.etfbl.voicetodb.components.*;
-import net.etfbl.voicetodb.models.Job;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.util.List;
-
+import net.etfbl.voicetodb.components.AudioStorage;
+import net.etfbl.voicetodb.components.JobQueue;
+import net.etfbl.voicetodb.components.PythonRunner;
+import net.etfbl.voicetodb.components.ResultStorage;
+import net.etfbl.voicetodb.components.TextProcessor;
+import net.etfbl.voicetodb.models.Job;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.slf4j.LoggerFactory;
 
 class VoiceToTextServiceTest {
 

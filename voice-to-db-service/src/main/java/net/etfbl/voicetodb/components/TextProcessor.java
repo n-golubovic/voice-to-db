@@ -1,8 +1,7 @@
 package net.etfbl.voicetodb.components;
 
-import org.springframework.stereotype.Component;
-
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 /**
  * {@code TextProcessor} performs and transformation or enrichment of plain text retrieved from audio-to-text

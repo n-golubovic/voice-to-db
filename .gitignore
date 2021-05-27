@@ -35,4 +35,4 @@ build/
 ### Project Specific ###
 /upload/
 /results/
-/python/model
+/voice-to-db-service/python/model

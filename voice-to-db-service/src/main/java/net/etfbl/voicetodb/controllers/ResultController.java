@@ -1,7 +1,9 @@
 package net.etfbl.voicetodb.controllers;
 
+import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_OK;
 import net.etfbl.voicetodb.components.ResultStorage;
 import net.etfbl.voicetodb.models.ResultResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +11,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
-
-import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 /**
  * {@code ResultController} allows retrieval of results for processed requests.

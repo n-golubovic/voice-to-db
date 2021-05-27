@@ -1,6 +1,12 @@
 package net.etfbl.voicetodb.controllers;
 
 
+import java.io.IOException;
+import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
 import lombok.extern.slf4j.Slf4j;
 import net.etfbl.voicetodb.models.JobSubmitResponse;
 import net.etfbl.voicetodb.services.JobSubmitService;
@@ -11,12 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ws.schild.jave.EncoderException;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-
-import static javax.servlet.http.HttpServletResponse.*;
 
 /**
  * {@code JobSubmitController} is a rest-based controller that allows submitting audio-to-text requests.

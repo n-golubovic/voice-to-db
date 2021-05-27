@@ -1,1 +1,10 @@
-end_route: 'http://localhost:8080/router/hyo'
+server:
+  port: 8081
+zuul:
+  routes:
+    upload:
+      path: /upload
+      url: http://localhost:8080
+    result:
+      path: /result
+      url: http://localhost:8080

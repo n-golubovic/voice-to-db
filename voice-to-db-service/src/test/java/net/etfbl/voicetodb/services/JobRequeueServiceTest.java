@@ -1,15 +1,13 @@
 package net.etfbl.voicetodb.services;
 
+import java.util.List;
 import net.etfbl.voicetodb.components.AudioStorage;
 import net.etfbl.voicetodb.components.JobQueue;
 import net.etfbl.voicetodb.models.Job;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
