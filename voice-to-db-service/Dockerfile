@@ -28,7 +28,7 @@ RUN unzip vosk-model-small-en-us-0.15.zip
 RUN mv vosk-model-small-en-us-0.15 /app/model
 
 COPY --from=builder /build/target/voice-to-db-service-1.0.0.jar /app/app.jar
-COPY ../python/vosk_voice.py /app/vosk_voice.py
+COPY /python/vosk_voice.py /app/vosk_voice.py
 
 RUN mkdir /results
 RUN mkdir /upload
